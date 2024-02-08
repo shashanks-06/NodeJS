@@ -24,5 +24,3 @@ http
     res.end();
   })
   .listen(80);
-
-//send post request on postman.
