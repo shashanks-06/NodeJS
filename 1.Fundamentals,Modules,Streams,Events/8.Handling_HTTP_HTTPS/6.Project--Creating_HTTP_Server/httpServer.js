@@ -1,13 +1,10 @@
 import http from "http";
 import url from "url";
+const users = [];
 
 http
   .createServer(function (req, res) {
-    // Part 1 -- GET and POST
-    
-    if (req.method === "GET") {
-      res.write("GET request received");
-    } else if (req.method === "POST") {
+    if (req.method === "POST") {
       let body = "";
 
       req.on("data", (data) => {
@@ -16,11 +13,16 @@ http
 
       req.on("end", () => {
         body = JSON.parse(body);
-        console.log(body);
-        console.log(body.username);
+        users[body.username] = body.password;
+        console.log(users);
       });
+    } else if (req.method === "GET") {
+      const parse = url.parse(req.url);
+      //   console.log(parse.query);
+      console.log(users[parse.query]);
     }
-    //send post request on postman.
     res.end();
   })
   .listen(80);
+
+//  localhost/user?username=Shashank
